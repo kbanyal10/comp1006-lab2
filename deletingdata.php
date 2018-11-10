@@ -15,7 +15,7 @@ if (empty($club_id)) {
 }
 
 // connection to the databse
-$db = new PDO('mysql:host=aws.computerstudi.es;dbname=gc200395834', 'gc200395834', 'RfOMQChbzO');
+require('database.php');
 // taking data from the table clubs and that too specifically id
 $sql = "DELETE FROM clubs WHERE club_id = :club_id";
 $cmd = $db->prepare($sql);

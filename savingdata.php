@@ -15,13 +15,13 @@ $ground = $_POST['ground'];
 
 
 //connection to the database is established
-$db = new PDO('mysql:host=aws.computerstudi.es;dbname=gc200395834', 'gc200395834', 'RfOMQChbzO');
-   //If the club id is empty, i.e new entry is being filled than form will store the new entries for everything
+try {
+    require('database.php');
+    //If the club id is empty, i.e new entry is being filled than form will store the new entries for everything
     if (empty($club_id)) {
         $sql = "INSERT INTO clubs (club_name, ground) 
     VALUES (:club_name, :ground)";
-    }
-    //This else if for old entries, and this will update the existing data
+    } //This else if for old entries, and this will update the existing data
     else {
         $sql = "UPDATE clubs SET club_name = :club_name, ground = :ground WHERE club_id = :club_id";
     }
@@ -36,8 +36,12 @@ $db = new PDO('mysql:host=aws.computerstudi.es;dbname=gc200395834', 'gc200395834
     $cmd->execute();
     // disconnect
     $db = null;
+}
+catch(Exception $e) {
     //this will send the user on main page
-    header('location:showingdata.php');
+    mail('kbanyal10@gmail.com', 'Barrie Eats Error', $e);
+    header('location:error.php');
+}
 
 ?>
 

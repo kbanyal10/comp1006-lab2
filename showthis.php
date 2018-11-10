@@ -14,29 +14,37 @@
 <?php
 $club_id = $_GET['club_id'];
 // connection to database
-$db = new PDO('mysql:host=aws.computerstudi.es;dbname=gc200395834', 'gc200395834', 'RfOMQChbzO');
+try {
+    require('database.php');
 // selecting data from clubs table
-$sql = "Select * from clubs WHERE club_id = :club_id";
+    $sql = "Select * from clubs WHERE club_id = :club_id";
 // execute & store the result
-$cmd = $db->prepare($sql);
-$cmd->bindParam(':club_id', $club_id, PDO::PARAM_INT);
-$cmd->execute();
+    $cmd = $db->prepare($sql);
+    $cmd->bindParam(':club_id', $club_id, PDO::PARAM_INT);
+    $cmd->execute();
 
 //having data from the table clubs
-$clubs = $cmd->fetchAll();
+    $clubs = $cmd->fetchAll();
 // starting table
-echo '<table class="table table-striped table-hover"><thead><th>Club Name</th><th>Ground</th><th>Club Id</th></thead>';
+    echo '<table class="table table-striped table-hover"><thead><th>Club Name</th><th>Ground</th><th>Club Id</th></thead>';
 // loop through the data & show each restaurant on a new row
-foreach ($clubs as $c) {
-    echo "<tr><td> {$c['club_name']} </td>
+    foreach ($clubs as $c) {
+        echo "<tr><td> {$c['club_name']} </td>
         <td> {$c['ground']} </td>
          <td> {$c['club_id']} </td></tr>";
-        }
+    }
 // close the table
-echo '</table>';
+    echo '</table>';
 
 // disconnect
-$db = null;
+    $db = null;
+}
+catch(Exception $e) {
+    // send
+    mail('kbanyal10@gmail.com', 'Barrie Eats Error', $e);
+    // show generic error page
+    header('location:error.php');
+}
 
 ?>
 <a href="Form.php">Back To Main Page</a>
