@@ -1,4 +1,5 @@
 <?php
+try{
 //When we will edit the data variables would be null to store new values
 $club_name = null;
 $ground = null;
@@ -22,6 +23,12 @@ if (!empty($_GET['club_id'])) {
 
     // disconnect
     $db = null;
+}
+}
+catch(Exception $e) {
+    //this will send the user on main page
+    mail('kbanyal10@gmail.com', 'Barrie Eats Error', $e);
+    header('location:error.php');
 }
 ?>
 
